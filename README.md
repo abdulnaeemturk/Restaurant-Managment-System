@@ -35,7 +35,7 @@ Database: Mysql
 
 Authentication: OAuth with Customised Login
 
-Deployment: Apache
+Server: Apache
 
 🚀 Getting Started
 Clone the repository and follow the setup instructions in the README to get the system up and running locally.

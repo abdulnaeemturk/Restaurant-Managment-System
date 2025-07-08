@@ -1,4 +1,8 @@
+**Restaurant-Managment-System**
+
 A comprehensive and user-friendly Restaurant Management System designed to streamline operations for restaurants of all sizes. This system helps manage orders, tables, menus,  a all from one centralized platform.
+
+Deletion of data is disabled
 
 Admin URL
 https://restaurant.tkhits.com/admin/food

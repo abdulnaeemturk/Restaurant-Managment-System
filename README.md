@@ -1,4 +1,4 @@
-**Due to Hosting services no more online demos.**
+<span style="color:red"> **Due to Hosting services no more online demos.**</span>
 
 **Restaurant-Managment-System**
 A comprehensive and user-friendly Restaurant Management System designed to streamline operations for restaurants of all sizes. This system helps manage orders, tables, menus,  a all from one centralized platform.

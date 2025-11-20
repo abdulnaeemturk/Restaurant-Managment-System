@@ -7,29 +7,59 @@
     <!-- Font Awesome -->
   <link rel="stylesheet" href="{{ asset('assets/plugins/fontawesome-free/css/all.min.css') }}">
 <style>
-    .increasedecrease:hover{
-        color: #c2c2c2;
-    }
+body {
+    background: #f5f6fa;
+    font-family: "Segoe UI", sans-serif;
+}
+.navbar {
+    background: white !important;
+    border-bottom: 1px solid #e5e5e5;
+    font-size: 1.3rem;
+}
+.nav-link, .navbar-brand { font-weight: 600; padding: 10px 18px !important; }
+.nav-link:hover { color: #0d6efd !important; }
 
+.card { border-radius: 10px; overflow: hidden; transition: 0.2s; }
+.card:hover { transform: translateY(-5px); box-shadow: 0px 8px 18px rgba(0,0,0,0.1); }
+.card img { height: 220px; object-fit: cover; }
+
+#foodinfo .col-md-4 { padding: 10px; }
+
+#result_set {
+    background: #ffffff; height: 100vh; overflow-y: auto;
+    border-left: 1px solid #e3e3e3; padding: 15px; position: sticky; top: 0;
+}
+
+#mobileOrderBtn {
+    display: none; position: fixed; bottom: 20px; right: 20px;
+    background: #0d6efd; color: white; padding: 16px 25px; border-radius: 40px;
+    box-shadow: 0px 4px 12px rgba(0,0,0,0.35); font-weight: bold; z-index: 9999;
+}
+
+@media(max-width: 992px) {
+    #result_set { display: none; }
+    #mobileOrderBtn { display: block; }
+}
+
+.increasedecrease:hover { color: #0d6efd; cursor: pointer; }
 </style>
 </head>
 
 <body>
     <input type="hidden" name="guestpc" id="guestpc" value="pc1">
-    <div class="row px-4">
-        <div class="col-md-12">
-            <nav class="navbar navbar-expand-lg navbar-light bg-light" style="font-size: xx-large;">
-                <a class="navbar-brand" href="#" id="all" onclick="selectFoodCategory(this.id)">All</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
-                    aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-                    <div class="navbar-nav">
+<div class="row px-4">
+    <div class="col-md-12 mb-3">
+        <nav class="navbar navbar-expand-lg navbar-light">
+            <a class="navbar-brand" href="#" id="all" onclick="selectFoodCategory(this.id)">All</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                <div class="navbar-nav">
                         @foreach($data as $item)
                             @if(count($item->foods) > 0)
                                 <a class="nav-item nav-link" style="border-right: 1px solid #475d88;"
-                                    id="{{ $item->name }}" onclick="selectFoodCategory(this.id)"
+                                    id="food{{ $item->id }}" onclick="selectFoodCategory(this.id)"
                                     href="#">{{ $item->name }}</a>
                             @endif
                         @endforeach
@@ -37,8 +67,10 @@
                 </div>
             </nav>
         </div>
-        <div class="col-md-9">
-            <div class="row" id="foodinfo">
+
+    <!-- FOOD GRID -->
+    <div class="col-md-9">
+        <div class="row" id="foodinfo">
 
                 <!-- this is food information area -->
                 @foreach($data as $item)
@@ -46,22 +78,23 @@
                         @foreach($item->foods as $subitem)
                             <?php 
                                     $imgurl = $subitem->attachment[0]->name ?? 'image.png'; ?>
-                            <div class="col-md-4 categorisedfood {{ $item->name }}">
-                                <div class="card">
-                                    <img style="height: 250px;" src="{{ asset($imgurl) }}" class="card-img-top"
-                                        alt="...">
-                                    <div class="card-body">
-                                        <h5 class="card-title">{{ $subitem->name }}</h5>
-                                        <p class="card-text">@foreach($subitem->foodDetail as $subitemdetail)
+
+                            <div class="col-md-4 categorisedfood food{{ $item->id }}">
+                            <div class="card">
+                            <img src="{{ asset($imgurl) }}" class="card-img-top">
+                            <div class="card-body">
+                            <h5 class="card-title">{{ $subitem->name }}</h5>
+                            <p class="card-text">@foreach($subitem->foodDetail as $subitemdetail)
                                             {{ $subitemdetail->name.' | ' }} @endforeach</p>
-                                    </div>
-                                    <div class="card-footer">
-                                        <small class="text-muted">Price : {{ $subitem->price }}</small> <button
-                                            class="btn btn-sm btn-primary float-end"
-                                            onclick="addFood({{ $subitem->id }})"> Add </button>
-                                    </div>
-                                </div>
                             </div>
+                            <div class="card-footer d-flex justify-content-between">
+                            <small>Price : {{ $subitem->price }}</small>
+                            <button class="btn btn-sm btn-primary" onclick="addFood({{ $subitem->id }})">Add</button>
+                            </div>
+                            </div>
+                            </div>
+
+                            <!-- Repeat for other food cards with online images -->
                         @endforeach
                     @endif
                 @endforeach
@@ -121,10 +154,9 @@
 
         function increaseOrDecreseQuantity(_temporaryorderid, increaseordecrease, _field_id)
         {
-
-        _order_detail_piece =  $('#temporary_order_row'+_temporaryorderid+' #'+_temporaryorderid).text();
-        fetchViewDynamically('increaseOrDecreseQuantity/'+_temporaryorderid+'/'+_order_detail_piece+'/'+increaseordecrease, _field_id, 'Successfull');
-        fetchViewDynamically('getfoodorderdetail', _field_id, 'Successfull');
+            _order_detail_piece =  $('#temporary_order_row'+_temporaryorderid+' #'+_temporaryorderid).text();
+            fetchViewDynamically('increaseOrDecreseQuantity/'+_temporaryorderid+'/'+_order_detail_piece+'/'+increaseordecrease, _field_id, 'Successfull');
+            fetchViewDynamically('getfoodorderdetail', _field_id, 'Successfull');
         }
 
         function addFood(_food_id) {

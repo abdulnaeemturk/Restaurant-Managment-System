@@ -12,69 +12,88 @@
 @include('adminlayout.mainsidebar')
 <!-- /. Main Sidebar Container -->
 
-  <!-- Content Wrapper. Contains page content -->
-  <div class="content-wrapper">
-    <!-- Content Header (Page header) -->
+  <!-- Content Wrapper -->
+<div class="content-wrapper">
+    <!-- Page Header -->
     <div class="content-header">
-      <div class="container-fluid">
-        <div class="row mb-2">
-          <div class="col-sm-6">
-            <h1 class="m-0">{{ $pageTitle}}</h1>
-          </div><!-- /.col -->
-          <div class="col-sm-6">
-            <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="#">{{ $mainTitle }}</a></li>
-              <li class="breadcrumb-item active">{{ $pageTitle}}</li>
-            </ol>
-          </div><!-- /.col -->
-        </div><!-- /.row -->
-      </div><!-- /.container-fluid -->
+        <div class="container-fluid">
+            <div class="row mb-2 align-items-center">
+                <div class="col-sm-6">
+                    <h1 class="m-0 text-primary">{{ $pageTitle }}</h1>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="#">{{ $mainTitle }}</a></li>
+                        <li class="breadcrumb-item active">{{ $pageTitle }}</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
     </div>
     <!-- /.content-header -->
 
-    <!-- Main content -->
+    <!-- Main Content -->
     <section class="content">
-      <!-- container-fluid -->
-      <div class="container-fluid">
+        <div class="container-fluid">
 
-         <!-- Starts Food form Area -->
-         <div class="card card-secondary">
-            <div class="card-header">
-              <h3 class="card-title">Food Info</h3>
+            <!-- Food Form Card -->
+            <div class="card card-secondary shadow-sm">
+                <div class="card-header">
+                    <h3 class="card-title">🍽 Food Information</h3>
+                </div>
+                <div class="card-body">
+                    
+                    <!-- Add Form -->
+                    <form method="POST" action="#" id="add_form">
+                        @include('admin.food.partials.form')
+                        <button class="btn btn-success" type="button" onclick="addRecord()">
+                            <i class="fas fa-plus-circle"></i> {{ __('Add Record') }}
+                        </button>
+                    </form>
+
+                    <!-- Update Form -->
+                    <form method="POST" action="#" id="update_form" style="display:none">
+                        @csrf
+                        @method('PATCH')
+                        @include('admin.food.partials.form')
+                        <button class="btn btn-primary" type="button" id="update_record">
+                            <i class="fas fa-save"></i> {{ __('Update Record') }}
+                        </button>
+                        <button class="btn btn-warning" type="button" id="cancel_update"
+                                onclick="cancelUpdateForm('add_form', 'update_form')">
+                            <i class="fas fa-times"></i> {{ __('Cancel') }}
+                        </button>
+                    </form>
+
+                  <!-- Pagination Control -->
+                    <div class="d-flex justify-content-between align-items-center mt-3 p-2 bg-light border rounded shadow-sm">
+                        <div>
+                            <span class="fw-bold text-secondary">
+                                <i class="fas fa-database me-1"></i> Records per page:
+                            </span>
+                            <select class="form-select d-inline-block w-auto ms-2" id="records_perpage" onchange="fetchLatestRecordsPagination()">
+                                <option value="10">10</option>
+                                <option value="20">20</option>
+                                <option value="50">50</option>
+                                <option value="100">100</option>
+                                <option value="200">200</option>
+                                <option value="500">500</option>
+                                <option value="1000">1000</option>
+                            </select>
+                        </div>
+                        <div>
+                            <small class="text-muted">Showing latest records</small>
+                        </div>
+                    </div>
+
+                    <!-- Records Table -->
+                    <div class="row mt-4" id="records_table"></div>
+
+                </div>
             </div>
-            <!-- /.card-header -->
-            <div class="card-body">
-              <form method="POST" action="#" id="add_form">
-                  @include('admin.food.partials.form')
-                  <button class="btn btn-primary" type="button" onclick="addRecord()">  {{ __('Add Record') }}</button>
-              </form>
-
-              <form method="POST" action="#" id="update_form" style="display:none">
-                  {{ csrf_field() }}
-                  {{ method_field('PATCH') }}
-                  @include('admin.food.partials.form')
-                  <button class="btn btn-primary"id="update_record" id="update_record" type="button" >  {{ __('Update Record') }}</button>
-                  <button class="btn btn-warning" onclick="cancelUpdateForm('add_form', 'update_form')"  type="button" id="cancel_update"> {{ __('cancel') }}</button>
-              </form>
-              <br/>
-            <select class="form-control float-end" name="records_perpage" id="records_perpage" onchange="fetchLatestRecordsPagination()">
-                <option value="10"> 10 </option>
-                <option value="20"> 20 </option>
-                <option value="50"> 50 </option>
-                <option value="100"> 100 </option>
-                <option value="200"> 200 </option>
-                <option value="500"> 500 </option>
-                <option value="1000"> 1000 </option>
-            </select>
-        <div class="row" id="records_table">
         </div>
-
-
-      </div>
-      <!-- /.container-fluid -->
     </section>
-    <!-- /.content -->
-  </div>
+</div>
   <!-- /.content-wrapper -->
 
 

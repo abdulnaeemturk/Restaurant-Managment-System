@@ -57,17 +57,29 @@
                   <button class="btn btn-warning" onclick="cancelUpdateForm('add_form', 'update_form')"  type="button" id="cancel_update"> {{ __('cancel') }}</button>
               </form>
               <br/>
-            <select class="form-control float-end" name="records_perpage" id="records_perpage" onchange="fetchLatestRecordsPagination()">
-                <option value="10"> 10 </option>
-                <option value="20"> 20 </option>
-                <option value="50"> 50 </option>
-                <option value="100"> 100 </option>
-                <option value="200"> 200 </option>
-                <option value="500"> 500 </option>
-                <option value="1000"> 1000 </option>
-            </select>
-        <div class="row" id="records_table">
-        </div>
+            <!-- Pagination Control -->
+                    <div class="d-flex justify-content-between align-items-center mt-3 p-2 bg-light border rounded shadow-sm">
+                        <div>
+                            <span class="fw-bold text-secondary">
+                                <i class="fas fa-database me-1"></i> Records per page:
+                            </span>
+                            <select class="form-select d-inline-block w-auto ms-2" id="records_perpage" onchange="fetchLatestRecordsPagination()">
+                                <option value="10">10</option>
+                                <option value="20">20</option>
+                                <option value="50">50</option>
+                                <option value="100">100</option>
+                                <option value="200">200</option>
+                                <option value="500">500</option>
+                                <option value="1000">1000</option>
+                            </select>
+                        </div>
+                        <div>
+                            <small class="text-muted">Showing latest records</small>
+                        </div>
+                    </div>
+
+                    <!-- Records Table -->
+                    <div class="row mt-4" id="records_table"></div>
 
 
       </div>

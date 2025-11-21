@@ -2,6 +2,30 @@
 <!-- Header -->
 @section('stylecss')
 <link rel="stylesheet" type="text/css" href="{{ asset('assets/dist/css/toastr.min.css') }}">
+<style> 
+.product-image-thumb img {
+  cursor: pointer;
+  transition: transform 0.2s ease, border 0.2s ease;
+}
+.product-image-thumb img:hover {
+  transform: scale(1.05);
+  border: 2px solid #0d6efd;
+}
+.product-image-thumb.active img {
+  border: 2px solid #0d6efd;
+}
+.product-image[src=""] {
+    background-color: #f8f9fa;
+    border: 1px dashed #ccc;
+    width: 100%;
+    height: 250px; /* fixed height */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #6c757d;
+    font-style: italic;
+}
+</style>
 @endsection
 @include('adminlayout.header')
 <!-- /. Header -->
@@ -36,85 +60,109 @@
     <section class="content">
    
       <!-- container-fluid -->
-      <div class="container-fluid">
-
-         <!-- Starts fooddetail form Area -->
-         <div class="card card-secondary">
-            <div class="card-header">
-              <h3 class="card-title">Food Detail And Image</h3>
-            </div>
-            <!-- /.card-header -->
-            <div class="card-body">
-              <div class="row">
-                <div class="col-md-6"> 
-                  <form method="POST" action="#" id="add_form">
-                    @include('admin.fooddetail.partials.form')
-                    <button class="btn btn-primary" type="button" onclick="addRecord()">  {{ __('Add Record') }}</button>
-                  </form>
-                  
-                  <form method="POST" action="#" id="update_form" style="display:none">
-                    {{ csrf_field() }}
-                    {{ method_field('PATCH') }}
-                    @include('admin.fooddetail.partials.form')
-                    <button class="btn btn-primary"id="update_record" id="update_record" type="button" >  {{ __('Update Record') }}</button>
-                    <button class="btn btn-warning" onclick="cancelUpdateForm('add_form', 'update_form')"  type="button" id="cancel_update"> {{ __('cancel') }}</button>
-                  </form>
-                </div>
-                <div class="col-md-6"> 
-                  <div class="row"> 
-                        <div class="col-md-6">
-                            <img src="" class="product-image" alt="Product Image">
-                        </div>
-                        <div class="col-md-6">
-                          <div class="col-md-12 product-image-thumbs">
-
-                              <?php $imagecount=0; $active = ' firstimg active' ?>
-                              @foreach($food->attachment as $foodimg)
-                                  <div
-                                      class="product-image-thumb  @if($imagecount == 0) {{ $active }} <?php $imagecount++;  ?>  @endif">
-                                      <img src="{{ asset(''.$foodimg->name) }}"
-                                          alt="Product Image"></div>
-                              @endforeach
-                          </div>
-                          <div class="col-md-6">
-                            <br>
-                              <form method="POST" action="#" id="product_image">
-                                  <img id="imagepreview" style="display:none" src="" height="64px" width="64px"
-                                      alt="your image" />
-                                  <input type="text" hidden="hidden" id="attachable_id" name="attachable_id"
-                                      value="{{ $food->id }}" />
-                                  <input type="file" name="image" id="image" accept="image/*"
-                                      onchange="showImage(this);" />
-                                    <br>
-                                    <br>
-                                  <button class="w-20 btn btn-primary btn-sm" id="add_record" id="add_record"
-                                      type="button"
-                                      onclick="addProductInformation('{{ $food->id }}', 'product_image', 'productimage')">
-                                      {{ __('Upload Image') }}</button>
-                                  <button class="w-20 btn btn-warning btn-sm" onclick="hideElement('#product_image')"
-                                      type="button" id="finishform"> {{ __('Finish') }}</button>
-                              </form>
-                          </div>
-                      </div>
-                    </div>
-            </div>
-                </div>
-              </div>
-              <br/>
-            <select class="form-control float-end" name="records_perpage" id="records_perpage" onchange="fetchLatestRecordsPagination()">
-                <option value="10"> 10 </option>
-                <option value="20"> 20 </option>
-                <option value="50"> 50 </option>
-                <option value="100"> 100 </option>
-                <option value="200"> 200 </option>
-                <option value="500"> 500 </option>
-                <option value="1000"> 1000 </option>
-            </select>
-        <div class="row" id="records_table">
+     <div class="container-fluid">
+  <div class="row">
+    <!-- Food Detail Form -->
+    <div class="col-md-6">
+      <div class="card shadow-sm border-0 mb-4 h-100">
+        <div class="card-header bg-light border-bottom">
+          <h5 class="card-title mb-0 text-dark fw-semibold">
+            <i class="fas fa-info-circle me-2 text-secondary"></i> Food Details
+          </h5>
         </div>
+        <div class="card-body">
+          <form method="POST" id="add_form" class="mb-3">
+            @include('admin.fooddetail.partials.form')
+            <button class="btn btn-success w-100" type="button" onclick="addRecord()">
+              <i class="fas fa-plus-circle me-1"></i> Add Record
+            </button>
+          </form>
 
-
+          <form method="POST" id="update_form" style="display:none">
+            @csrf
+            @method('PATCH')
+            @include('admin.fooddetail.partials.form')
+            <div class="d-flex gap-2">
+              <button class="btn btn-primary flex-fill" type="button" id="update_record">
+                <i class="fas fa-save me-1"></i> Update
+              </button>
+              <button class="btn btn-warning flex-fill" type="button" id="cancel_update"
+                      onclick="cancelUpdateForm('add_form','update_form')">
+                <i class="fas fa-times me-1"></i> Cancel
+              </button>
+            </div>
+          </form>
+        </div>
       </div>
+    </div>
+
+    <!-- Image Gallery -->
+    <div class="col-md-6">
+      <div class="card shadow-sm border-0 mb-4 h-100">
+        <div class="card-header bg-light border-bottom">
+          <h5 class="card-title mb-0 text-dark fw-semibold">
+            <i class="fas fa-image me-2 text-secondary"></i> Product Images
+          </h5>
+        </div>
+        <div class="card-body">
+          <div class="text-center mb-3">
+            <img src="" class="img-fluid rounded border product-image" alt="Main Product Image">
+          </div>
+          <div class="d-flex flex-wrap gap-2 mb-3 product-image-thumbs">
+            @foreach($food->attachment as $i => $foodimg)
+              <div class="product-image-thumb {{ $i==0 ? 'active' : '' }}">
+                <img src="{{ asset($foodimg->name) }}" class="img-thumbnail" alt="Thumbnail">
+              </div>
+            @endforeach
+          </div>
+          <form method="POST" id="product_image" class="border rounded p-3 bg-light">
+            <img id="imagepreview" style="display:none" class="img-thumbnail mb-2" alt="Preview" />
+            <input type="hidden" name="attachable_id" value="{{ $food->id }}" />
+            <input type="file" name="image" id="image" class="form-control mb-2" accept="image/*"
+                   onchange="showImage(this);" />
+            <div class="d-flex gap-2">
+              <button class="btn btn-primary btn-sm flex-fill" type="button"
+                      onclick="addProductInformation('{{ $food->id }}','product_image','productimage')">
+                <i class="fas fa-upload me-1"></i> Upload
+              </button>
+              <button class="btn btn-secondary btn-sm flex-fill" type="button"
+                      onclick="hideElement('#product_image')">
+                <i class="fas fa-check me-1"></i> Finish
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Records Section -->
+  <div class="card shadow-sm border-0 mt-1">
+ <div class="d-flex justify-content-between align-items-center mt-3 p-2 bg-light border rounded shadow-sm">
+                        <div>
+                            <span class="fw-bold text-secondary">
+                                <i class="fas fa-database me-1"></i> Records per page:
+                            </span>
+                            <select class="form-select d-inline-block w-auto ms-2" id="records_perpage" onchange="fetchLatestRecordsPagination()">
+                                <option value="10">10</option>
+                                <option value="20">20</option>
+                                <option value="50">50</option>
+                                <option value="100">100</option>
+                                <option value="200">200</option>
+                                <option value="500">500</option>
+                                <option value="1000">1000</option>
+                            </select>
+                        </div>
+                        <div>
+                            <small class="text-muted">Showing latest records</small>
+                        </div>
+                    </div>
+    <div class="card-body">
+      <div class="row" id="records_table"></div>
+    </div>
+  </div>
+</div>
+
       <!-- /.container-fluid -->
     </section>
     <!-- /.content -->

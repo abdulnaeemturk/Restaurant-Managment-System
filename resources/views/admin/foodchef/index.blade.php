@@ -11,74 +11,91 @@
 @include('adminlayout.mainsidebar')
 <!-- /. Main Sidebar Container -->
 
-<!-- Content Wrapper. Contains page content -->
+<!-- Header -->
+@section('stylecss')
+<link rel="stylesheet" href="{{ asset('assets/dist/css/toastr.min.css') }}">
+@endsection
+
+@include('adminlayout.header')
+@include('adminlayout.navbar')
+@include('adminlayout.mainsidebar')
+
+<!-- Content Wrapper -->
 <div class="content-wrapper">
-    <!-- Content Header (Page header) -->
+    <!-- Page Header -->
     <div class="content-header">
         <div class="container-fluid">
-            <div class="row mb-2">
+            <div class="row mb-2 align-items-center">
                 <div class="col-sm-6">
-                    <h1 class="m-0">{{ $pageTitle }}</h1>
-                </div><!-- /.col -->
+                    <h1 class="m-0 text-primary">{{ $pageTitle }}</h1>
+                </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="#">{{ $mainTitle }}</a></li>
                         <li class="breadcrumb-item active">{{ $pageTitle }}</li>
                     </ol>
-                </div><!-- /.col -->
-            </div><!-- /.row -->
-        </div><!-- /.container-fluid -->
+                </div>
+            </div>
+        </div>
     </div>
     <!-- /.content-header -->
 
-    <!-- Main content -->
+    <!-- Main Content -->
     <section class="content">
-        <!-- container-fluid -->
         <div class="container-fluid">
 
-            <!-- Starts foodchef form Area -->
-            <div class="card card-secondary">
-                <div class="card-header">
-                    <h3 class="card-title">foodchef Info</h3>
+            <!-- FoodChef Section -->
+            <div class="card shadow-sm border-secondary">
+                <div class="card-header bg-secondary text-white">
+                    <h3 class="card-title"><i class="fas fa-user-chef me-2"></i> FoodChef Info</h3>
                 </div>
-                <!-- /.card-header -->
                 <div class="card-body">
+                    
+                    <!-- Active & Pending Orders -->
                     <div class="row">
-                        <div class="col-md-6" >
-                            <div class="row"  id="records_table">
-                            </div>
+                        <div class="col-md-6">
+                            <h5 class="fw-bold text-muted mb-2">Active Orders</h5>
+                            <div class="row border rounded p-2 bg-light" id="records_table"></div>
                         </div>
-                        <div class="col-md-6" >
-                            <div class="row" id="records_table1">
-                            </div>
+                        <div class="col-md-6">
+                            <h5 class="fw-bold text-muted mb-2">Pending Orders</h5>
+                            <div class="row border rounded p-2 bg-light" id="records_table1"></div>
                         </div>
                     </div>
-                    <div class="row">
+
+                    <!-- Completed Orders -->
+                    <div class="row mt-4">
                         <div class="col-md-12">
-                            <div class="col-md-12">
-                            <select class="form-control float-end" name="completed_records_perpage" id="completed_records_perpage" onchange="fetchLatestCompletedRecordsPagination()">
-                                    <option value="10"> 10 </option>
-                                    <option value="20"> 20 </option>
-                                    <option value="50"> 50 </option>
-                                    <option value="100"> 100 </option>
-                                    <option value="200"> 200 </option>
-                                    <option value="500"> 500 </option>
-                                    <option value="1000"> 1000 </option>
-                                </select>
+                            <div class="d-flex justify-content-between align-items-center mb-2 p-2 bg-light border rounded">
+                                <span class="fw-bold text-secondary">
+                                    <i class="fas fa-check-circle me-1"></i> Completed Orders
+                                </span>
+                                <div class="d-flex align-items-center">
+                                    <label for="completed_records_perpage" class="me-2 fw-bold">Per Page:</label>
+                                    <select class="form-select w-auto" id="completed_records_perpage" 
+                                            onchange="fetchLatestCompletedRecordsPagination()">
+                                        <option value="10">10</option>
+                                        <option value="20">20</option>
+                                        <option value="50">50</option>
+                                        <option value="100">100</option>
+                                        <option value="200">200</option>
+                                        <option value="500">500</option>
+                                        <option value="1000">1000</option>
+                                    </select>
+                                </div>
                             </div>
+                            <div class="border rounded p-3 bg-white" id="completed_orders_data"></div>
                         </div>
-                        <div class="col-md-12" id="completed_orders_data"></div>
-
                     </div>
-
 
                 </div>
-                <!-- /.container-fluid -->
+            </div>
+        </div>
     </section>
-    <!-- /.content -->
 </div>
 <!-- /.content-wrapper -->
-<span id="information" style="display:none"></span>
+
+<span id="information" class="d-none"></span>
 
 <!-- footer Section with js scripts -->
 @section('scriptjs')

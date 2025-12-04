@@ -39,7 +39,7 @@
             <!-- Food Form Card -->
             <div class="card card-secondary shadow-sm">
                 <div class="card-header">
-                    <h3 class="card-title">🍽 Food Information</h3>
+                    <h3 class="card-title">🍽 {{ $mainTitle }}</h3>
                 </div>
                 <div class="card-body">
                     

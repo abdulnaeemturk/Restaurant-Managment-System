@@ -22,7 +22,7 @@ class RestaurantFoodController extends Controller
         $this->restaurantfoodcategoryrepository = $restaurantfoodcategoryrepository;
         $this->perpage = 2;
         $this->mainTitle = 'Food';
-        $this->pageTitle = 'Information';
+        $this->pageTitle = 'Food Information';
     }
       /**
      * Display a listing of the resource.

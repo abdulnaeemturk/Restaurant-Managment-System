@@ -22,7 +22,6 @@ use Illuminate\Http\Request;
 // Route::get('/', function () {
 //     return view('welcome');
 // });
-Route::get('/', [AdminDashboardController::class, 'dashboard']);
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -38,13 +37,15 @@ Route::get('deletecurrenttemporaryfood/{temporaryorderid}',[GuestController::cla
 Route::get('completetheorderpayment',[GuestController::class, 'completeTheOrderPayment']);
 Route::get('printorder/{id}',[RestaurantOrderController::class, 'printOrder']);
 
-// shared Rouets and reports
-Route::get('admin/reports/dashboard/',[ReportsController::class, 'index']);
-Route::get('shared/reports/completedorder/{_start_date?}/{_end_date?}/{per_page?}/{pagenumber?}/{fulltableorrecords?}',[ReportsController::class, 'completedOrder']);
 
 
 
 Route::group(['middleware' => ['auth'],], function() {
+    
+    Route::get('/', [AdminDashboardController::class, 'dashboard']);
+    // shared Rouets and reports
+    Route::get('admin/reports/dashboard/',[ReportsController::class, 'index']);
+    Route::get('shared/reports/completedorder/{_start_date?}/{_end_date?}/{per_page?}/{pagenumber?}/{fulltableorrecords?}',[ReportsController::class, 'completedOrder']);
     
     Route::get('dashboard', [AdminDashboardController::class, 'dashboard']);
     

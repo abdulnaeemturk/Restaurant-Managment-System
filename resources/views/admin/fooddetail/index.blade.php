@@ -106,7 +106,10 @@
         </div>
         <div class="card-body">
           <div class="text-center mb-3">
-            <img src="" class="img-fluid rounded border product-image" alt="Main Product Image">
+            
+            @if(count($food->attachment) > 0)
+              <img src="" class="img-fluid rounded border product-image" alt="Main Product Image">
+            @endif
           </div>
           <div class="d-flex flex-wrap gap-2 mb-3 product-image-thumbs">
             @foreach($food->attachment as $i => $foodimg)
@@ -184,24 +187,24 @@
         
         fetchLatestRecordsPagination();
         $('.product-image-thumb').on('click', function () {
-            var $image_element = $(this).find('img')
-            $('.product-image').prop('src', $image_element.attr('src'))
-            $('.product-image-thumb.active').removeClass('active')
-            $(this).addClass('active')
+            viewUploadedThumbnail(this);
         });
-        showFirstImg();
+          
+        @if(count($food->attachment) > 0)
+          let firstobj = $('.product-image-thumb').first();
+          viewUploadedThumbnail(firstobj);
+        @endif
 
     });
 
-
-      var global_food_id = {{ $food->id }};
-      function showFirstImg() {
-        var $image_element = $('.firstimg').find('img')
-        $('.product-image').prop('src', $image_element.attr('src'))
-        $('.product-image-thumb.active').removeClass('active')
-        $(this).addClass('active');
-      }
-
+    function viewUploadedThumbnail(obj)
+    {     
+          var $image_element = $(obj).find('img')
+            $('.product-image').prop('src', $image_element.attr('src'))
+            $('.product-image-thumb.active').removeClass('active')
+            $(obj).addClass('active')
+    }
+    
       
     function showImage(input) {
         if (input.files && input.files[0]) {

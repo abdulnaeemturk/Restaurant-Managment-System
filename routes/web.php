@@ -39,9 +39,8 @@ Route::get('printorder/{id}',[RestaurantOrderController::class, 'printOrder']);
 
 
 
-
 Route::group(['middleware' => ['auth'],], function() {
-    
+
     Route::get('/', [AdminDashboardController::class, 'dashboard']);
     // shared Rouets and reports
     Route::get('admin/reports/dashboard/',[ReportsController::class, 'index']);

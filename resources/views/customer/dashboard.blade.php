@@ -56,6 +56,8 @@ body {
             </button>
             <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                 <div class="navbar-nav">
+                        
+
                         @foreach($data as $item)
                             @if(count($item->foods) > 0)
                                 <a class="nav-item nav-link" style="border-right: 1px solid #475d88;"

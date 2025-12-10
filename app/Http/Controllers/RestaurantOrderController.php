@@ -7,10 +7,12 @@ use Illuminate\Http\Request;
 use App\RepositoryInterfaces\RestaurantOrderRepositoryInterface;
 use App\RepositoryInterfaces\RestaurantTableRepositoryInterface;
 use App\RepositoryInterfaces\RestaurantFoodRepositoryInterface;
+use App\RepositoryInterfaces\Setting\RestaurantFoodCategoryRepositoryInterface;
 
 class RestaurantOrderController extends Controller
 {
     protected $orderrepository;
+    protected $restaurantfoodcategoryrepository;
     protected $restauranttablerepository;
     protected $restaurantfoodrepository;
     protected $perpage;
@@ -18,10 +20,12 @@ class RestaurantOrderController extends Controller
     public $pageTitle;
 
     public function __construct(RestaurantOrderRepositoryInterface $orderrepository, 
+    RestaurantFoodCategoryRepositoryInterface $restaurantfoodcategoryrepository, 
     RestaurantTableRepositoryInterface $restauranttablerepository, 
     RestaurantFoodRepositoryInterface $restaurantfoodrepository)
     {
         $this->orderrepository = $orderrepository;
+        $this->restaurantfoodcategoryrepository = $restaurantfoodcategoryrepository;
         $this->restauranttablerepository = $restauranttablerepository;
         $this->restaurantfoodrepository = $restaurantfoodrepository;
         $this->perpage = 2;
@@ -33,6 +37,9 @@ class RestaurantOrderController extends Controller
      */
     public function index()
     {
+        $relations_category = [];
+        $orderBy_category = array('name'=>'ASC');
+
         $columns = ['*'];
         $relations = ['table.location'];
         $orderBy = array('status'=>'DESC');
@@ -40,8 +47,12 @@ class RestaurantOrderController extends Controller
         $data = $this->orderrepository->filter(['*'], $conditions, $relations);
         $table = $this->restauranttablerepository->all($columns , ['location']);
         $food = $this->restaurantfoodrepository->all($columns , ['foodDetail']);
+
+        $category = $this->restaurantfoodcategoryrepository->all($columns , $relations_category,$orderBy_category);
+
         return view('admin.order.index',[
             'data' => $data,
+            'category' => $category,
             'table' => $table,
             'food' => $food,
             'mainTitle'=>$this->mainTitle,

@@ -218,6 +218,7 @@ class BaseRepository implements BaseRepositoryInterface
      * @param array $orderby
      */
     public function filter(array $columns = ['*'], array $conditions = [], array $relations = [], array $orderBy = []) {
+         //DB::connection()->enableQueryLog();
        $query = $this->model->select($columns);
         if(is_array($orderBy) && count($orderBy)>0)
             $query = $this->setSort($query,$orderBy);
@@ -225,7 +226,9 @@ class BaseRepository implements BaseRepositoryInterface
         if(is_array($conditions) && count($conditions)>0)
             $query = $query->where($conditions);
 
-        return $query->with($relations)->get();
+        $query = $query->with($relations)->get();
+         //dd(DB::getQueryLog());
+        return $query;
     }
 
    

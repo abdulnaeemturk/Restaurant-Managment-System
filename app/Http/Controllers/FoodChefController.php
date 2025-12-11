@@ -42,6 +42,11 @@ class FoodChefController extends Controller
         $relations = ['table.location', 'orderDetail.food.foodDetail'];
         $orderBy = array('status'=>'DESC');
         $conditions = [['status','=',$status]];
+        if($status >= 3 )
+        {
+            $conditions = [['created_at','>=',today()], ['status','=',$status]];
+            
+        }
         $data = $this->restaurantorderrepository->filter(['*'], $conditions, $relations);
         return response()->json(
             view('admin.foodchef.partials.table',[

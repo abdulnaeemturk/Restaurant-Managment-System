@@ -1,272 +1,39 @@
 <!-- Header -->
 @section('stylecss')
 <link rel="stylesheet" type="text/css" href="{{ asset('assets/dist/css/toastr.min.css') }}">
+<link rel="stylesheet" type="text/css" href="{{ asset('assets/custom/adminorder.css') }}">
+     <style>
 
-<style>
-    /* ===========================
-   FULL 3-COLUMN POS LAYOUT
-   =========================== */
+.add-btn-with-qty {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+}
 
-    .pos-wrapper {
-        display: grid;
-        grid-template-columns: 280px 1fr 380px;
-        gap: 18px;
-        padding: 15px;
-    }
+.qty-inline {
+    width: 42px;
+    height: 24px;
+    text-align: center;
+    font-size: 0.75rem;
+    border: none;
+    border-radius: 6px;
+    background: rgba(255,255,255,0.25);
+    color: #fff;
+}
 
-    /* -----------------------------
-   LEFT COLUMN (Order Info + List)
-   ----------------------------- */
+.qty-inline:focus {
+    outline: none;
+    background: rgba(255,255,255,0.35);
+}
 
-    .pos-left {
-        background: #fff;
-        border-radius: 12px;
-        padding: 18px;
-        box-shadow: 0 3px 12px rgba(0, 0, 0, 0.08);
-    }
-
-    .pos-left h3 {
-        font-size: 1.2rem;
-        margin-bottom: 10px;
-        font-weight: 600;
-    }
-
-    .order-box {
-        background: #f8f8f8;
-        padding: 12px;
-        border-radius: 8px;
-        margin-bottom: 12px;
-    }
-
-    .order-box p {
-        margin: 4px 0;
-        font-size: 0.9rem;
-        color: #444;
-    }
-
-    .order-list {
-        max-height: 400px;
-        overflow-y: auto;
-        margin-top: 10px;
-    }
-
-    .order-item-small {
-        padding: 8px 10px;
-        border-radius: 8px;
-        margin-bottom: 6px;
-        border: 1px solid #e6e6e6;
-        transition: 0.2s;
-    }
-
-    .order-item-small:hover {
-        background: #eef4ff;
-        border-color: #bcd4ff;
-    }
-
-        /* Status specific */
-    .status-Pending { background: #57b5ebff; color: #ffffffff; }
-    .status-Paid { background: #868686ff; color: #ee1919ff; }
-    .status-Kitchen { background: #fc0800ff; color: #bdbdbdff; }
-    .status-Competed { background: #f9fafcff; color: #000102ff; }
-
-    /* -----------------------------
-   CENTER COLUMN (Product Catalog)
-   ----------------------------- */
-
-    .pos-center {
-        background: #fff;
-        border-radius: 12px;
-        padding: 18px;
-        box-shadow: 0 3px 12px rgba(0, 0, 0, 0.08);
-    }
-
-    .catalog-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-        gap: 16px;
-    }
-
-    .product-card {
-        background: #fff;
-        border-radius: 14px;
-        overflow: hidden;
-        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.10);
-        transition: 0.25s ease;
-        border: 1px solid #f1f1f1;
-    }
-
-    .product-card:hover {
-        transform: translateY(-4px);
-        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-    }
-
-    .product-card img {
-        height: 120px;
-        width: 100%;
-        object-fit: cover;
-    }
-
-    .product-info-area {
-        padding: 10px;
-        text-align: center;
-    }
-
-    .product-name {
-        font-size: 0.95rem;
-        font-weight: 600;
-        margin-bottom: 4px;
-        color: #333;
-    }
-
-    .product-price {
-        color: #0078d4;
-        font-weight: 600;
-        font-size: 0.85rem;
-    }
-
-    .add-btn {
-        width: 100%;
-        padding: 7px;
-        border: none;
-        font-size: 0.85rem;
-        background: #0078d4;
-        color: #fff;
-        border-radius: 0 0 14px 14px;
-        cursor: pointer;
-        transition: 0.2s;
-    }
-
-    .add-btn:hover {
-        background: #005fa3;
-    }
-
-    /* -----------------------------
-   RIGHT COLUMN (Order Details)
-   ----------------------------- */
-
-    .pos-right {
-        background: #fff;
-        border-radius: 12px;
-        padding: 18px;
-        box-shadow: 0 3px 12px rgba(0, 0, 0, 0.08);
-    }
-
-    .pos-right h3 {
-        font-size: 1.2rem;
-        font-weight: 600;
-        margin-bottom: 10px;
-    }
-
-    .right-items {
-        max-height: 430px;
-        overflow-y: auto;
-    }
-
-    .right-item {
-        display: flex;
-        background: #fafafa;
-        border-radius: 12px;
-        padding: 10px;
-        margin-bottom: 12px;
-        border: 1px solid #eee;
-        gap: 10px;
-        transition: 0.3s;
-    }
-
-    .right-item:hover {
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    }
-
-    .right-item img {
-        width: 70px;
-        height: 70px;
-        border-radius: 8px;
-        object-fit: cover;
-    }
-
-    .item-details  {
-        width: 100%;
-    }
-    .item-details h4 {
-        margin: 0;
-        font-size: 1rem;
-    }
-
-    .qty-box {
-        width: 60px;
-    }
-
-    .summary-box {
-        background: #f2f5fc;
-        padding: 12px;
-        border-radius: 12px;
-        margin-top: 15px;
-    }
-
-    .summary-box p {
-        margin: 4px 0;
-        font-size: 1rem;
-    }
-
-    .submit-btn {
-        width: 100%;
-        margin-top: 8px;
-        padding: 10px;
-        background: #0078d4;
-        color: #fff;
-        font-size: 1rem;
-        border: none;
-        border-radius: 10px;
-        cursor: pointer;
-    }
-
-    .category-row {
-        display: flex;
-        gap: 0.5rem;
-        /* tighter spacing between categories */
-        list-style: none;
-        padding: 0;
-        margin: 0 0 0.8rem;
-        border-bottom: 1px solid #eee;
-        overflow-x: auto;
-        /* allows horizontal scroll if too many categories */
-    }
-
-    .category-row li {
-        font-size: 0.85rem;
-        /* smaller text */
-        padding: 0.4rem 0.8rem;
-        /* reduced padding */
-        cursor: pointer;
-        border-radius: 4px 4px 0 0;
-        background: #f9f9f9;
-        white-space: nowrap;
-        /* keeps each category in one line */
-        transition: background 0.3s ease;
-    }
-
-    .category-row li:hover {
-        background: #eaeaea;
-    }
-
-    .category-row li.active {
-        background: #0078d4;
-        color: #fff;
-        font-weight: 600;
-    }
-    .quantitycontrolbadge:hover{
-        color: #c2c2c2;
-    }
-    .custom-hr {
-    border: 0;
-    height: 2px;
-    background: #dcdcdc;
-    margin: 15px 0;
-    }
-
-
+.qty-inline::-webkit-inner-spin-button,
+.qty-inline::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+}
 
 </style>
+
 
 @endsection
 
@@ -358,10 +125,10 @@ $badge[5] = "info";
 
                         <!-- Category Row -->
                         <ul class="category-row">
-                            <li id="all" onclick="selectFoodCategory(this.id)" class="active">All</li>
+                            <li id="all" onclick="selectFoodCategory(this.id)" class="categorylist active">All</li>
                                 @foreach($category as $item)
                                     @if(count($item->foods) > 0)
-                                        <li id="food{{ $item->id }}" onclick="selectFoodCategory(this.id)">{{ $item->name }}</li>
+                                        <li id="food{{ $item->id }}" class="categorylist" onclick="selectFoodCategory(this.id)">{{ $item->name }}</li>
                                     @endif
                                 @endforeach
                         </ul>
@@ -377,9 +144,18 @@ $badge[5] = "info";
                                         <div class="product-price">Price : {{ $item->price }}</div>
                                     </div>
 
-                                    <button class="add-btn" onclick="addfoodorder({{ $item->id }}, 'order_detail')">
-                                        Add +
+
+                                    <button type="button" class="add-btn add-btn-with-qty">
+
+
+                                        <input type="number" class="qty-inline"
+                                            value="1" min="1"
+                                            onclick="event.stopPropagation()">
+
+                                        <span class="add-text"
+                                            onclick="addfoodorder({{ $item->id }}, 'order_detail')">Add</span>
                                     </button>
+
                                 </div>
                             @endforeach
                         </div>
@@ -522,12 +298,14 @@ $badge[5] = "info";
     }
 
     function selectFoodCategory(_category) {
+            $('.categorylist').removeClass('active');
             if (_category == 'all') {
                 showElement('.categorisedfood');
             } else {
                 hideElement('.categorisedfood');
                 showElement('.' + _category);
             }
+            $('#'+_category).addClass('active');
     }
 
     $(document).ready(function () {

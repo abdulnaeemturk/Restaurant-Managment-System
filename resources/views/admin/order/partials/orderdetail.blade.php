@@ -58,7 +58,7 @@
      ?>
     <p><strong>Subtotal:</strong> {{ $subtotal }}</p>
     <p><strong>Tax:</strong> {{ $tax }}</p>
-    <p><strong>Total:</strong> {{ $total }}</p>
+    <p class="mb-2"><strong>Total:</strong> {{ $total }}</p>
 
     <a href="{{ asset('admin/printorder/'.$data->id) }}" target="_blank"
         class="submit-btn">Submit</a>

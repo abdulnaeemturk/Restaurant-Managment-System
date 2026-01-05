@@ -1,0 +1,321 @@
+
+    /* ===========================
+   FULL 3-COLUMN POS LAYOUT
+   =========================== */
+
+    .pos-wrapper {
+        display: grid;
+        grid-template-columns:
+            minmax(240px, 280px)
+            minmax(0, 1fr)
+            minmax(300px, 380px);
+        gap: 18px;
+        padding: 15px;
+    }
+
+.pos-left,
+.pos-center,
+.pos-right {
+    min-width: 0;
+}
+
+@media (max-width: 1200px) {
+    .pos-wrapper {
+        grid-template-columns: 1fr;
+    }
+
+}
+@media (max-width: 768px) {
+    .category-row {
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none; /* Firefox */
+    }
+
+    .category-row::-webkit-scrollbar {
+        display: none; /* Chrome/Safari */
+    }
+
+    .category-row li {
+        padding: 0.6rem 1rem;
+        font-size: 0.9rem;
+    }
+}
+
+.category-row {
+    display: flex;
+    gap: 0.6rem;
+    list-style: none;
+    padding: 0 0.25rem;
+    margin: 0 0 1rem;
+    border-bottom: 1px solid #eee;
+
+    /* responsiveness */
+    flex-wrap: wrap;
+    max-width: 100%;
+}
+
+.product-card img {
+    width: 100%;
+    object-fit: cover;
+}
+
+.product-card img {
+    max-width: 100%;
+}
+
+    /* -----------------------------
+   LEFT COLUMN (Order Info + List)
+   ----------------------------- */
+
+/*
+     .pos-left {
+        background: #fff;
+        border-radius: 12px;
+        padding: 18px;
+        box-shadow: 0 3px 12px rgba(0, 0, 0, 0.08);
+    }
+*/
+
+    .pos-left h3 {
+        font-size: 1.2rem;
+        margin-bottom: 10px;
+        font-weight: 600;
+    }
+
+    .order-box {
+        background: #f8f8f8;
+        padding: 12px;
+        border-radius: 8px;
+        margin-bottom: 12px;
+    }
+
+    .order-box p {
+        margin: 4px 0;
+        font-size: 0.9rem;
+        color: #444;
+    }
+
+    .order-list {
+        max-height: 400px;
+        overflow-y: auto;
+        margin-top: 10px;
+    }
+
+    .order-item-small {
+        padding: 8px 10px;
+        border-radius: 8px;
+        margin-bottom: 6px;
+        border: 1px solid #e6e6e6;
+        transition: 0.2s;
+    }
+
+    .order-item-small:hover {
+        background: #eef4ff;
+        border-color: #bcd4ff;
+    }
+
+        /* Status specific */
+    .status-Pending { background: #57b5ebff; color: #ffffffff; }
+    .status-Paid { background: #868686ff; color: #ee1919ff; }
+    .status-Kitchen { background: #fc0800ff; color: #bdbdbdff; }
+    .status-Competed { background: #f9fafcff; color: #000102ff; }
+
+    /* -----------------------------
+   CENTER COLUMN (Product Catalog)
+   ----------------------------- */
+
+   
+/*
+    .pos-center {
+        background: #fff;
+        border-radius: 12px;
+        padding: 18px;
+        box-shadow: 0 3px 12px rgba(0, 0, 0, 0.08);
+    }
+
+*/
+    .catalog-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+        gap: 16px;
+    }
+
+    .product-card {
+        background: #fff;
+        border-radius: 14px;
+        overflow: hidden;
+        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.10);
+        transition: 0.25s ease;
+        border: 1px solid #f1f1f1;
+    }
+
+    .product-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    }
+
+    .product-card img {
+        height: 120px;
+        width: 100%;
+        object-fit: cover;
+    }
+
+    .product-info-area {
+        padding: 10px;
+        text-align: center;
+    }
+
+    .product-name {
+        font-size: 0.95rem;
+        font-weight: 600;
+        margin-bottom: 4px;
+        color: #333;
+    }
+
+    .product-price {
+        color: #0078d4;
+        font-weight: 600;
+        font-size: 0.85rem;
+    }
+
+    .add-btn {
+        width: 100%;
+        padding: 7px;
+        border: none;
+        font-size: 0.85rem;
+        background: #0078d4;
+        color: #fff;
+        border-radius: 0 0 14px 14px;
+        cursor: pointer;
+        transition: 0.2s;
+    }
+
+    .add-btn:hover {
+        background: #005fa3;
+    }
+
+    /* -----------------------------
+   RIGHT COLUMN (Order Details)
+   ----------------------------- */
+
+/*
+    .pos-right {
+        background: #fff;
+        border-radius: 12px;
+        padding: 18px;
+        box-shadow: 0 3px 12px rgba(0, 0, 0, 0.08);
+    }
+
+*/
+    .pos-right h3 {
+        font-size: 1.2rem;
+        font-weight: 600;
+        margin-bottom: 10px;
+    }
+
+    .right-items {
+        max-height: 430px;
+        overflow-y: auto;
+    }
+
+    .right-item {
+        display: flex;
+        background: #fafafa;
+        border-radius: 12px;
+        padding: 10px;
+        margin-bottom: 12px;
+        border: 1px solid #eee;
+        gap: 10px;
+        transition: 0.3s;
+    }
+
+    .right-item:hover {
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .right-item img {
+        width: 70px;
+        height: 70px;
+        border-radius: 8px;
+        object-fit: cover;
+    }
+
+    .item-details  {
+        width: 100%;
+    }
+    .item-details h4 {
+        margin: 0;
+        font-size: 1rem;
+    }
+
+    .qty-box {
+        width: 60px;
+    }
+
+    .summary-box {
+        background: #f2f5fc;
+        padding: 12px;
+        border-radius: 12px;
+        margin-top: 15px;
+    }
+
+    .summary-box p {
+        margin: 4px 0;
+        font-size: 1rem;
+    }
+
+    .submit-btn {
+        width: 100%;
+        margin-top: 8px;
+        padding: 10px;
+        background: #0078d4;
+        color: #fff;
+        font-size: 1rem;
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+    }
+
+    .category-row {
+        display: flex;
+        gap: 0.5rem;
+        /* tighter spacing between categories */
+        list-style: none;
+        padding: 0;
+        margin: 0 0 0.8rem;
+        border-bottom: 1px solid #eee;
+        overflow-x: auto;
+        /* allows horizontal scroll if too many categories */
+    }
+
+.category-row li {
+    font-size: 0.85rem;
+    padding: 0.45rem 0.9rem;
+    cursor: pointer;
+    border-radius: 999px;
+    background: #f5f6f8;
+    white-space: nowrap;
+    transition: all 0.2s ease;
+    user-select: none;
+}
+
+.category-row li:hover {
+    background: #e8f1ff;
+}
+
+.category-row li.active {
+    background: #0078d4;
+    color: #fff;
+    font-weight: 600;
+}
+    .quantitycontrolbadge:hover{
+        color: #c2c2c2;
+    }
+    .custom-hr {
+    border: 0;
+    height: 2px;
+    background: #dcdcdc;
+    margin: 15px 0;
+    }

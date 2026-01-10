@@ -16,11 +16,22 @@ class DatabaseSeeder extends Seeder
         // User::factory(10)->create();
             $this->call([
             UserSeeder::class,
+            RestaurantFoodCategoriesTableSeeder::class,
+            RestaurantFoodTableSeeder::class,
+            RestaurantFoodDetailsTableSeeder::class,
+            RestaurantTableLocationsTableSeeder::class,
+            RestaurantTablesTableSeeder::class,
+            RestaurantOrdersTableSeeder::class,
+            RestaurantOrderDetailsTableSeeder::class,
+            RestaurantLinkTableUsersTableSeeder::class,
+            AttachablesTableSeeder::class,
+            TemporaryOrdersTableSeeder::class,
             ]);
 
         //User::factory()->create([
         //    'name' => 'Test User',
         //    'email' => 'test@example.com',
         //]);
+
     }
 }

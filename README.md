@@ -162,10 +162,10 @@ Password: admin@admin.com
 ![Login Page](public/screenshots/login.png)
 
 ### 📊 Admin Dashboard
-![Dashboard](public/screenshots/dashboard.png)
+![Dashboard](public/screenshots/home.png)
 
 ### 🧾 Order Management
-![Order Management](public/screenshots/order-management.png)
+![Order Management](public/screenshots/adminorder.png)
 
 ---
 

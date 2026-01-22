@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Attachable;
 use Illuminate\Http\Request;
 
-class AttachableController extends Controller
+class AttachablesController extends Controller
 {
     /**
      * Display a listing of the resource.

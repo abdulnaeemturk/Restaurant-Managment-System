@@ -5,7 +5,7 @@ use Illuminate\Support\Collection;
 /**
  * Attendance Repository Interface to make repository abstract
  */
-interface AttachableStructureRepositoryInterface
+interface AttachablesStructureRepositoryInterface
 {
     
 }

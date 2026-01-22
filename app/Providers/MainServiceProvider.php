@@ -60,7 +60,7 @@ class MainServiceProvider extends ServiceProvider
         $this->app->bind(RestaurantLinkTableUserRepositoryInterface::class, RestaurantLinkTableUserRepository::class);
         
         // shared
-        $this->app->bind(AttachableStructureRepositoryInterface::class, AttachableStructureRepository::class);
+        $this->app->bind(AttachablesStructureRepositoryInterface::class, AttachablesStructureRepository::class);
        
     }
 
